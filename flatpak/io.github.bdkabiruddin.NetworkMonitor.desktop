@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Network Monitor
+Comment=Live network bandwidth, connections, and history dashboard
+Exec=network-monitor-tauri
+Icon=io.github.bdkabiruddin.NetworkMonitor
+Terminal=false
+Categories=Network;Monitor;Utility;
+StartupWMClass=network-monitor-tauri

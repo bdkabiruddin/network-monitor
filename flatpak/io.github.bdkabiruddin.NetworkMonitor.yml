@@ -1,0 +1,56 @@
+app-id: io.github.bdkabiruddin.NetworkMonitor
+runtime: org.gnome.Platform
+runtime-version: '49'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: network-monitor-tauri
+finish-args:
+  # UI
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Real network monitoring needs to see the host's actual network state --
+  # /proc/net/dev, /sys/class/net/*, and the CLI tools this app shells out
+  # to (ss, ip, ping, nmcli) all need to observe the *host*, not the
+  # sandbox's own isolated network namespace, which defeats the purpose
+  # of a network monitor. Broad host filesystem access is the pragmatic
+  # tradeoff a monitoring tool like this makes.
+  - --share=network
+  - --filesystem=host
+  # NetworkManager (Wi-Fi/VPN), desktop notifications, tray icon.
+  - --system-talk-name=org.freedesktop.NetworkManager
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Known limitation: pkexec-gated features (NetHogs scan, Firewall
+  # ruleset viewer, Packet Capture) call `pkexec` directly, which does
+  # not work across the Flatpak sandbox boundary without routing through
+  # `flatpak-spawn --host` -- not yet implemented in the Rust source.
+  # These features will show their real "cancelled or failed" error
+  # inside this sandboxed build rather than working -- everything else
+  # (bandwidth, connections, Wi-Fi, VPN, interfaces, speed test, alerts,
+  # history) is unaffected and fully functional.
+  - --talk-name=org.freedesktop.PolicyKit1
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin
+  env:
+    CARGO_HOME: /run/build/network-monitor-tauri/cargo
+modules:
+  - name: network-monitor-tauri
+    buildsystem: simple
+    build-commands:
+      - cd app && cargo --offline build --release
+      - install -Dm755 app/target/release/network-monitor-tauri /app/bin/network-monitor-tauri
+      - install -Dm644 flatpak/io.github.bdkabiruddin.NetworkMonitor.desktop /app/share/applications/io.github.bdkabiruddin.NetworkMonitor.desktop
+      - install -Dm644 flatpak/io.github.bdkabiruddin.NetworkMonitor.metainfo.xml /app/share/metainfo/io.github.bdkabiruddin.NetworkMonitor.metainfo.xml
+      - install -Dm644 app/icons/icon.png /app/share/icons/hicolor/512x512/apps/io.github.bdkabiruddin.NetworkMonitor.png
+      - install -Dm644 app/icons/128x128.png /app/share/icons/hicolor/128x128/apps/io.github.bdkabiruddin.NetworkMonitor.png
+      - install -Dm644 app/icons/32x32.png /app/share/icons/hicolor/32x32/apps/io.github.bdkabiruddin.NetworkMonitor.png
+    sources:
+      - type: dir
+        path: ..
+        skip:
+          - app/target
+          - core/target
+      - cargo-sources.json

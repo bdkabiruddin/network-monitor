@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.bdkabiruddin.NetworkMonitor</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Network Monitor</name>
+  <summary>Live network bandwidth, connections, and history dashboard</summary>
+  <description>
+    <p>
+      Network Monitor is a native, real-time network dashboard for Linux
+      desktops: download/upload bandwidth, latency, active TCP/UDP
+      connections, per-process network activity, Wi-Fi analysis, a
+      read-only firewall ruleset viewer, VPN profile switching, and
+      long-term traffic history, all backed by real system data with
+      nothing simulated.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Live bandwidth, latency, and connection charts with hover tooltips</li>
+      <li>Per-connection sent/received byte counters and live throughput</li>
+      <li>A Geo-IP map of remote peers with city, country, and network registrant</li>
+      <li>Per-process bandwidth ranking</li>
+      <li>Wi-Fi network analysis and nearby access point scanning</li>
+      <li>Interface, bonding, and LAN device inventory</li>
+      <li>NetworkManager VPN profile connect/disconnect</li>
+      <li>Read-only nftables firewall ruleset viewer</li>
+      <li>Built-in speed test, ping, traceroute, packet capture, and port scan</li>
+      <li>Traffic anomaly alerts with optional desktop notifications</li>
+      <li>CSV history export and a configurable monthly data usage cap</li>
+      <li>System tray icon with a live bandwidth label</li>
+    </ul>
+    <p>
+      Everything runs locally against a SQLite database on your own
+      machine — no telemetry, no accounts, no cloud dependency.
+    </p>
+  </description>
+  <launchable type="desktop-id">io.github.bdkabiruddin.NetworkMonitor.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Live bandwidth, interface, and session dashboard</caption>
+      <image>https://raw.githubusercontent.com/bdkabiruddin/network-monitor/main/.github/screenshots/dashboard.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Active connections with a Geo-IP peer map</caption>
+      <image>https://raw.githubusercontent.com/bdkabiruddin/network-monitor/main/.github/screenshots/connections.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Every interface, bonding group, and LAN device</caption>
+      <image>https://raw.githubusercontent.com/bdkabiruddin/network-monitor/main/.github/screenshots/interfaces.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/bdkabiruddin/network-monitor</url>
+  <url type="bugtracker">https://github.com/bdkabiruddin/network-monitor/issues</url>
+  <url type="vcs-browser">https://github.com/bdkabiruddin/network-monitor</url>
+  <developer id="io.github.bdkabiruddin">
+    <name>Md Kabir Uddin</name>
+  </developer>
+  <content_rating type="oars-1.1" />
+  <categories>
+    <category>Network</category>
+    <category>Monitor</category>
+    <category>Utility</category>
+  </categories>
+  <releases>
+    <release version="0.0.1" date="2026-08-19">
+      <description>
+        <p>Initial Flathub release.</p>
+      </description>
+    </release>
+  </releases>
+</component>
