@@ -9,6 +9,14 @@ backed by real system data, with nothing simulated or faked.
 
 ![Network Monitor dashboard](.github/screenshots/dashboard.png)
 
+<details>
+<summary>More screenshots — Connections (Geo-IP map) &amp; Interfaces</summary>
+
+![Connections with Geo-IP map](.github/screenshots/connections.png)
+![Interfaces](.github/screenshots/interfaces.png)
+
+</details>
+
 ## Why
 
 Most of this information is already on your system somewhere —
