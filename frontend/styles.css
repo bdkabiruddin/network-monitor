@@ -1,0 +1,401 @@
+/* Industry — design-system tokens and component classes, ported from
+   design_handoff_network_monitor/network_monitor_design_reference.html.
+   Fonts are self-hosted (fonts/*.ttf) instead of the reference's Google
+   Fonts URLs, for an offline-capable native app. */
+
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/Barlow-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/Barlow-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/Barlow-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/BarlowCondensed-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/BarlowCondensed-SemiBold.ttf') format('truetype');
+}
+
+:root {
+  --color-bg: #eceef0;
+  --color-surface: #ffffff;
+  --color-text: #1d1f20;
+  --color-accent: #45647f;
+  --color-accent-2: #728fab;
+  --color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
+
+  /* Download/upload series colors for the 24H Traffic chart — outside
+     the accent ramp on purpose, so the two lines read as distinct
+     series rather than shades of the same hue. */
+  --color-dl: #22c55e;
+  --color-ul: #3b82f6;
+  --color-lat: #f59e0b;
+
+  --color-neutral-100: color-mix(in srgb, #1d1f20 6%, transparent);
+  --color-neutral-200: #e7e7ea;
+  --color-neutral-300: #d4d4d7;
+  --color-neutral-400: #a3a3a7;
+  --color-neutral-500: #98989b;
+  --color-neutral-600: #7a7a7d;
+  --color-neutral-700: #5d5d60;
+  --color-neutral-800: #424244;
+  --color-neutral-900: #2b2b2d;
+
+  --color-accent-100: #eef6ff;
+  --color-accent-200: #d6ebff;
+  --color-accent-300: #b5d9fd;
+  --color-accent-400: #94bce3;
+  --color-accent-500: #749dc4;
+  --color-accent-600: #597ea3;
+  --color-accent-700: #416180;
+  --color-accent-800: #2c455d;
+  --color-accent-900: #1d2d3d;
+
+  --font-heading: "Barlow Condensed", system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: "Barlow", system-ui, sans-serif;
+
+  --space-1: 3.4px;
+  --space-2: 6.8px;
+  --space-3: 10.2px;
+  --space-4: 13.6px;
+  --space-6: 20.4px;
+  --space-8: 27.2px;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 7px;
+
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2b2b2d 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2b2b2d 22%, transparent);
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #1a1b1d;
+  --color-surface: #232427;
+  --color-text: #eef0f1;
+  --color-accent: #5980a6;
+  --color-divider: rgba(255, 255, 255, .14);
+  --color-accent-100: rgba(89, 128, 166, .28);
+  --color-accent-800: #d3e3f0;
+  --color-neutral-100: rgba(255, 255, 255, .08);
+  --color-neutral-800: #e8e8ea;
+}
+
+* , *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; font-size: 15px; line-height: 1.55; font-weight: 400;
+  background: var(--color-bg); color: var(--color-text); font-family: var(--font-body);
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+h1 { font-size: 42px; } h2 { font-size: 32px; } h3 { font-size: 25px; }
+h4 { font-size: 20px; } h5 { font-size: 16px; }
+h6 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+img, svg { display: block; }
+/* 65%, not 55% -- 55% measured ~3.6:1 against the light theme's
+   background, below WCAG AA's 4.5:1 for normal-size text (dark theme
+   was already fine at higher contrast). 65% clears AA in both themes. */
+.text-muted { color: color-mix(in srgb, var(--color-text) 65%, transparent); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+.hr { height: 1px; border: 0; margin: var(--space-4) 0; background: var(--color-divider); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text);
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+}
+.btn svg { display: block; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); }
+.btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 85%, black); }
+.btn-primary:active { background: color-mix(in srgb, var(--color-accent) 70%, black); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); border-color: transparent; }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+.field > label { display: block; font-size: 12px; margin-bottom: 5px; color: color-mix(in srgb, var(--color-text) 70%, transparent); }
+
+/* — range slider — square, accent-colored, matching the mono palette.
+   This had no custom styling at all until now, so it rendered in the
+   OS/WebKit theme's default accent color -- an off-brand orange/red on
+   most systems, directly violating this design's own "no hue outside
+   the accent ramp" rule (battery-monitor hit and fixed the identical
+   bug earlier). */
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 4px; background: var(--color-divider);
+  border-radius: 0; cursor: pointer; outline: none;
+}
+/* The attribute selector above (0,1,1) outranks the generic
+   :focus-visible rule (0,1,0) regardless of source order, so its
+   `outline: none` would otherwise silently win and keyboard focus
+   would become invisible on every range slider -- this rule's higher
+   specificity (0,2,1) restores it. */
+input[type="range"]:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+/* Transparent so the input's own background (a JS-set linear-gradient,
+   see updateRangeFill in app.js) shows through as the filled-up-to-value
+   look, instead of a flat track with no progress indication. */
+input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: transparent; }
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 14px; height: 14px; margin-top: -5px;
+  background: var(--color-accent); border: 2px solid var(--color-bg); border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--color-accent); cursor: pointer;
+}
+input[type="range"]::-moz-range-track { height: 4px; background: var(--color-divider); border: none; }
+input[type="range"]::-moz-range-thumb {
+  width: 14px; height: 14px;
+  background: var(--color-accent); border: 2px solid var(--color-bg); border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--color-accent); cursor: pointer;
+}
+.input {
+  width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 0;
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; }
+/* Native <select> chrome ignores background/color on some WebKitGTK
+   builds (paints its own opaque white box) — opt out of native
+   rendering and draw our own chevron so it follows the theme. */
+select.input {
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  padding-right: 28px; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23888888' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+/* Compact variant for selects that replace what used to be inline
+   range/filter button-groups (24H Traffic's bin picker, Live
+   Telemetry's range, Connections'/Alerts' filter, Reports' period) —
+   sits in a tight card-header row rather than a full-width form field. */
+.select-compact { width: auto; min-height: auto; padding: 5px 28px 5px 10px; font-size: 12px; }
+
+.card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); background: var(--color-surface); border: 1px solid var(--color-divider);
+  border-radius: 0; box-shadow: var(--shadow-sm);
+}
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.card-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 1.2; }
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; flex: 1; }
+.elev-sm { box-shadow: var(--shadow-sm); } .elev-md { box-shadow: var(--shadow-md); } .elev-lg { box-shadow: var(--shadow-lg); }
+
+.tag { display: inline-flex; align-items: center; font-size: 11px; letter-spacing: 0.02em; padding: 3px 10px; }
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th {
+  text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  /* 65%, not 60% -- same WCAG AA contrast fix as .text-muted (60%
+     measured just under the 4.5:1 minimum in light mode). */
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+  padding: var(--space-2); border-bottom: 1px solid var(--color-divider);
+}
+.table td { padding: var(--space-2); border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); }
+.table tbody tr:hover { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+.table th.sortable { cursor: pointer; user-select: none; }
+.table th.sortable:hover { color: var(--color-text); }
+.table th.sortable.active { color: var(--color-accent); }
+
+/* — radio (dot) — */
+.radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
+.radio input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+/* The real <input> is 0x0 (above), so an outline on it is invisible --
+   :has() lets the visible radio itself carry the focus ring when its
+   hidden input is keyboard-focused. */
+.radio:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.radio .dot { width: 16px; height: 16px; flex: none; border-radius: 50%; border: 1.5px solid var(--color-divider); }
+.radio:hover .dot { border-color: var(--color-accent); }
+.radio input:checked + .dot { border-color: var(--color-accent); background: var(--color-accent); box-shadow: inset 0 0 0 4px var(--color-bg); }
+
+/* — pill toggle switch — off = neutral knob/border, on = accent fill +
+   bg-colored knob, per the handoff's spec (not the reference's inline
+   computed styles, which this reimplements as real CSS). */
+.toggle { position: relative; width: 34px; height: 18px; display: inline-block; cursor: pointer; flex: none; }
+.toggle input { position: absolute; top: 0; right: 0; bottom: 0; left: 0; opacity: 0; margin: 0; cursor: pointer; z-index: 1; }
+.toggle .track { position: absolute; top: 0; right: 0; bottom: 0; left: 0; border: 1px solid var(--color-neutral-400); background: transparent; transition: background .15s ease, border-color .15s ease; }
+.toggle .knob { position: absolute; top: 1px; left: 1px; width: 14px; height: 14px; background: var(--color-neutral-400); transition: transform .15s ease, background .15s ease; }
+.toggle input:checked + .track { background: var(--color-accent); border-color: var(--color-accent); }
+.toggle input:checked + .track .knob { transform: translateX(16px); background: var(--color-bg); }
+
+/* — app shell — */
+#app { display: flex; min-height: 100vh; background: var(--color-bg); color: var(--color-text); }
+
+.sidebar { width: 222px; flex: none; display: flex; flex-direction: column; background: var(--color-surface); border-right: 1px solid var(--color-divider); }
+.sidebar-brand { height: 58px; box-sizing: border-box; padding: 0 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--color-divider); }
+.sidebar-brand svg { color: var(--color-accent); flex: none; }
+.sidebar-brand .name { font-family: var(--font-heading); font-weight: 600; font-size: 16px; line-height: 1; }
+.sidebar-brand .version { font-size: 10px; opacity: .55; letter-spacing: .06em; text-transform: uppercase; margin-top: 2px; }
+
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 2px; }
+.nav-btn {
+  display: flex; align-items: center; gap: 10px; padding: 9px 10px; border: none; cursor: pointer;
+  font-family: var(--font-body); font-size: 13.5px; text-align: left; width: 100%;
+  background: transparent; color: var(--color-text);
+}
+.nav-btn svg { flex: none; }
+.nav-btn.active { background: var(--color-accent-100); color: var(--color-accent-800); }
+.nav-btn:not(.active):hover { background: color-mix(in srgb, var(--color-text) 6%, transparent); }
+.nav-btn .badge { margin-left: auto; background: var(--color-accent); color: var(--color-bg); font-size: 10px; padding: 1px 6px; line-height: 1.5; }
+.sidebar-divider { height: 1px; background: var(--color-divider); margin: 6px 4px; }
+
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.header {
+  height: 58px; flex: none; display: flex; align-items: center; gap: 16px; padding: 0 24px;
+  border-bottom: 1px solid var(--color-divider);
+}
+/* overflow:hidden + ellipsis, not just nowrap -- without it the title
+   doesn't clip, it visually overlaps the search bar once the window
+   shrinks below what both need (confirmed at tauri.conf.json's own
+   declared 900px minWidth). */
+.header h4 { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.header .subtitle { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; flex: none; }
+.live-dot { width: 7px; height: 7px; background: var(--color-accent); border-radius: 50%; display: inline-block; }
+.live-dot-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-accent-800); }
+/* Backend-unreachable state -- the dot stops pulsing and dims to muted
+   gray (this design system stays inside the accent ramp, so red would
+   be off-brand), and "Live" is swapped for "Offline" by JS, instead of
+   staying a purely decorative "Live" label regardless of whether
+   polling is actually succeeding. */
+.live-dot-row.offline { color: color-mix(in srgb, var(--color-text) 65%, transparent); }
+.live-dot-row.offline .live-dot { background: color-mix(in srgb, var(--color-text) 45%, transparent); }
+
+/* — connection toast — */
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+  z-index: 300; display: flex; align-items: center; gap: 10px;
+  background: var(--color-surface); border: 1px solid var(--color-divider);
+  padding: 10px 14px; font-size: 13px; box-shadow: var(--shadow-md);
+  max-width: 90vw;
+}
+.toast .toast-dot { width: 7px; height: 7px; border-radius: 50%; background: color-mix(in srgb, var(--color-text) 45%, transparent); flex: none; }
+
+.content { flex: 1; overflow-y: auto; padding: 22px 24px; }
+/* .content's only direct child is the single visible <section> at a time
+   (the rest carry .hidden) — the gap has to live here, one level down,
+   or it never applies between the cards/rows inside that section. */
+.content > section { display: flex; flex-direction: column; gap: 18px; }
+
+/* grid, not flex — callers set an explicit grid-template-columns
+   inline (e.g. Dashboard's 1.05fr/1.4fr/1fr) same as the reference;
+   flex would silently ignore that property and fall back to equal
+   widths. align-items:stretch (the grid default) is what makes the
+   three top-row cards match height without extra JS. */
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 18px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+.kv { display: flex; flex-direction: column; gap: 9px; font-size: 13px; }
+.kv-row { display: flex; justify-content: space-between; gap: 10px; }
+.kv-row .k { white-space: nowrap; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.kv-row .v { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.hidden { display: none !important; }
+
+/* — chart hover tooltip (24H Traffic) — */
+.chart-tooltip {
+  position: absolute; top: 0; pointer-events: none; z-index: 10;
+  background: var(--color-bg); border: 1px solid var(--color-divider);
+  padding: 6px 8px; font-size: 11px; white-space: nowrap; line-height: 1.6;
+  box-shadow: var(--shadow-md);
+}
+.chart-tooltip .tt-row { display: flex; align-items: center; gap: 6px; }
+.chart-tooltip .swatch { width: 8px; height: 8px; flex: none; display: inline-block; }
+
+/* — blueprint corner marks — disabled: boxes use a soft filled
+   background instead of the wireframe/crosshair-corner look now.
+   .blueprint stays (for position:relative on the few callers that use
+   it for other positioned children) but .corner itself renders nothing. */
+.blueprint { position: relative; }
+.blueprint > .corner { display: none; }
+
+/* — dialogs — */
+.dialog-backdrop {
+  position: fixed; top: 0; right: 0; bottom: 0; left: 0; display: grid; place-items: center; padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent); z-index: 200;
+}
+.dialog {
+  width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); background: var(--color-surface); border: 1px solid var(--color-divider);
+  border-radius: 0; box-shadow: var(--shadow-lg);
+}
+.dialog-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 20px; }
+.dialog-body { font-size: 14px; opacity: 0.85; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
+
+/* — dropdown menus (quick actions, profile switcher) — */
+.dropdown-menu { background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 0; padding: 6px; display: flex; flex-direction: column; gap: 2px; z-index: 60; }
+
+/* — command palette trigger button in header — */
+.palette-btn { margin-left: 12px; width: 280px; flex: none; display: flex; align-items: center; gap: 8px; cursor: pointer; color: inherit; text-align: left; }
+/* At the app's own declared 900px minWidth, a fixed 280px search bar
+   plus the header's other fixed-width chrome left ~0px for the page
+   title -- the overlap fix above (ellipsis) stops it from visually
+   colliding with the search bar, but shrinking the search bar itself
+   gives the title real room instead of rendering fully blank. */
+@media (max-width: 1050px) {
+  .palette-btn { width: 170px; }
+  .palette-btn span:first-of-type { display: none; }
+}
+.palette-kbd { font-size: 11px; opacity: .45; border: 1px solid var(--color-divider); padding: 1px 6px; flex: none; }
+
+/* — sidebar profile switcher — */
+.sidebar-profile { border-top: 1px solid var(--color-divider); padding: 10px; position: relative; }
+.sidebar-profile-btn {
+  width: 100%; display: flex; align-items: center; gap: 10px; padding: 8px;
+  background: transparent; border: 1px solid transparent; cursor: pointer; color: inherit;
+  font-family: var(--font-body); font-size: 13px;
+}
+.sidebar-profile-avatar { width: 28px; height: 28px; border: 1px solid var(--color-divider); display: flex; align-items: center; justify-content: center; flex: none; }
+.sidebar-profile-text { text-align: left; flex: 1; min-width: 0; }
+.sidebar-profile-text .name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar-profile-text .role { font-size: 11px; opacity: .55; }
+
+pre.output-box {
+  background: var(--color-bg); border: 1px solid var(--color-divider); padding: 10px;
+  font-size: 12px; min-height: 110px; margin: 0; overflow: auto; font-family: ui-monospace, monospace;
+}
