@@ -81,8 +81,17 @@ breakdown and known gaps.
 
 ## Installing
 
-Prebuilt packages: see [Releases](https://github.com/bdkabiruddin/network-monitor/releases)
-for a `.deb` or `.AppImage`.
+```sh
+curl -fsSL https://raw.githubusercontent.com/bdkabiruddin/network-monitor/main/install.sh | sh
+```
+
+Fetches the latest release and installs the `.deb` on apt-based
+distros (Ubuntu, Debian, Mint, ...), or falls back to the `.AppImage`
+elsewhere. [Read the script](install.sh) before piping it to a shell if
+you'd rather not trust a one-liner — it's short.
+
+Prefer to do it by hand? Grab a `.deb` or `.AppImage` directly from
+[Releases](https://github.com/bdkabiruddin/network-monitor/releases).
 
 ## Building from source
 
